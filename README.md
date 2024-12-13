@@ -25,7 +25,7 @@ Ensure you have the following installed:
 
    ```bash
    git clone https://github.com/verneylmavt/st-snt-analysis.git
-   cd ml-model
+   cd st-snt-analysis
    ```
 
 2. Install the required dependencies:
