@@ -24,92 +24,92 @@ spacy_en = load_spacy()
 # ----------------------
 # Model Definition
 # ----------------------
-class BiRNN(nn.Module):
-    def __init__(self, vocab_size, embed_size, num_hiddens,
-                 num_layers, **kwargs):
-        super(BiRNN, self).__init__(**kwargs)
-        self.embedding = nn.Embedding(vocab_size, embed_size)
-        self.encoder = nn.LSTM(embed_size, num_hiddens, num_layers=num_layers,
-                                bidirectional=True)
-        self.decoder = nn.Linear(4 * num_hiddens, 2)
+# class BiRNN(nn.Module):
+#     def __init__(self, vocab_size, embed_size, num_hiddens,
+#                  num_layers, **kwargs):
+#         super(BiRNN, self).__init__(**kwargs)
+#         self.embedding = nn.Embedding(vocab_size, embed_size)
+#         self.encoder = nn.LSTM(embed_size, num_hiddens, num_layers=num_layers,
+#                                 bidirectional=True)
+#         self.decoder = nn.Linear(4 * num_hiddens, 2)
 
-    def forward(self, inputs):
-        embeddings = self.embedding(inputs.T)
-        self.encoder.flatten_parameters()
-        outputs, _ = self.encoder(embeddings)
-        encoding = torch.cat((outputs[0], outputs[-1]), dim=1)
-        outs = self.decoder(encoding)
-        return outs
+#     def forward(self, inputs):
+#         embeddings = self.embedding(inputs.T)
+#         self.encoder.flatten_parameters()
+#         outputs, _ = self.encoder(embeddings)
+#         encoding = torch.cat((outputs[0], outputs[-1]), dim=1)
+#         outs = self.decoder(encoding)
+#         return outs
 
-class TextCNN(nn.Module):
-    def __init__(self, vocab_size, embed_size, kernel_sizes, num_channels,
-                 **kwargs):
-        super(TextCNN, self).__init__(**kwargs)
-        self.embedding = nn.Embedding(vocab_size, embed_size)
-        self.constant_embedding = nn.Embedding(vocab_size, embed_size)
-        self.dropout = nn.Dropout(0.5)
-        self.decoder = nn.Linear(sum(num_channels), 2)
-        self.pool = nn.AdaptiveAvgPool1d(1)
-        self.relu = nn.ReLU()
-        self.convs = nn.ModuleList()
-        for c, k in zip(num_channels, kernel_sizes):
-            self.convs.append(nn.Conv1d(2 * embed_size, c, k))
-    def forward(self, inputs):
-        embeddings = torch.cat((
-            self.embedding(inputs), self.constant_embedding(inputs)), dim=2)
-        embeddings = embeddings.permute(0, 2, 1)
-        encoding = torch.cat([
-            torch.squeeze(self.relu(self.pool(conv(embeddings))), dim=-1)
-            for conv in self.convs], dim=1)
-        outputs = self.decoder(self.dropout(encoding))
-        return outputs
+# class TextCNN(nn.Module):
+#     def __init__(self, vocab_size, embed_size, kernel_sizes, num_channels,
+#                  **kwargs):
+#         super(TextCNN, self).__init__(**kwargs)
+#         self.embedding = nn.Embedding(vocab_size, embed_size)
+#         self.constant_embedding = nn.Embedding(vocab_size, embed_size)
+#         self.dropout = nn.Dropout(0.5)
+#         self.decoder = nn.Linear(sum(num_channels), 2)
+#         self.pool = nn.AdaptiveAvgPool1d(1)
+#         self.relu = nn.ReLU()
+#         self.convs = nn.ModuleList()
+#         for c, k in zip(num_channels, kernel_sizes):
+#             self.convs.append(nn.Conv1d(2 * embed_size, c, k))
+#     def forward(self, inputs):
+#         embeddings = torch.cat((
+#             self.embedding(inputs), self.constant_embedding(inputs)), dim=2)
+#         embeddings = embeddings.permute(0, 2, 1)
+#         encoding = torch.cat([
+#             torch.squeeze(self.relu(self.pool(conv(embeddings))), dim=-1)
+#             for conv in self.convs], dim=1)
+#         outputs = self.decoder(self.dropout(encoding))
+#         return outputs
 
-class HybridCNNRNN200(nn.Module):
-    def __init__(self, vocab_size, embed_size, kernel_sizes, num_channels,
-                 lstm_hidden_size, num_lstm_layers, dropout=0.5, **kwargs):
-        super(HybridCNNRNN200, self).__init__(**kwargs)
-        self.embedding = nn.Embedding(vocab_size, embed_size)
-        self.constant_embedding = nn.Embedding(vocab_size, embed_size)
-        self.dropout = nn.Dropout(dropout)
-        self.convs = nn.ModuleList()
-        for c, k in zip(num_channels, kernel_sizes):
-            padding = (k - 1) // 2
-            self.convs.append(
-                nn.Conv1d(
-                    in_channels=2 * embed_size,
-                    out_channels=c,
-                    kernel_size=k,
-                    padding=padding
-                )
-            )
-        self.relu = nn.ReLU()
-        self.lstm = nn.LSTM(
-            input_size=sum(num_channels),
-            hidden_size=lstm_hidden_size,
-            num_layers=num_lstm_layers,
-            bidirectional=True,
-            batch_first=True
-        )
-        self.attention = nn.Linear(2 * lstm_hidden_size, 1)
-        self.decoder = nn.Linear(2 * lstm_hidden_size, 2)
-    def forward(self, inputs):
-        embeddings = torch.cat((self.embedding(inputs), self.constant_embedding(inputs)), dim=2)
-        embeddings = self.dropout(embeddings)
-        embeddings = embeddings.permute(0, 2, 1)
+# class HybridCNNRNN200(nn.Module):
+#     def __init__(self, vocab_size, embed_size, kernel_sizes, num_channels,
+#                  lstm_hidden_size, num_lstm_layers, dropout=0.5, **kwargs):
+#         super(HybridCNNRNN200, self).__init__(**kwargs)
+#         self.embedding = nn.Embedding(vocab_size, embed_size)
+#         self.constant_embedding = nn.Embedding(vocab_size, embed_size)
+#         self.dropout = nn.Dropout(dropout)
+#         self.convs = nn.ModuleList()
+#         for c, k in zip(num_channels, kernel_sizes):
+#             padding = (k - 1) // 2
+#             self.convs.append(
+#                 nn.Conv1d(
+#                     in_channels=2 * embed_size,
+#                     out_channels=c,
+#                     kernel_size=k,
+#                     padding=padding
+#                 )
+#             )
+#         self.relu = nn.ReLU()
+#         self.lstm = nn.LSTM(
+#             input_size=sum(num_channels),
+#             hidden_size=lstm_hidden_size,
+#             num_layers=num_lstm_layers,
+#             bidirectional=True,
+#             batch_first=True
+#         )
+#         self.attention = nn.Linear(2 * lstm_hidden_size, 1)
+#         self.decoder = nn.Linear(2 * lstm_hidden_size, 2)
+#     def forward(self, inputs):
+#         embeddings = torch.cat((self.embedding(inputs), self.constant_embedding(inputs)), dim=2)
+#         embeddings = self.dropout(embeddings)
+#         embeddings = embeddings.permute(0, 2, 1)
 
-        conv_outputs = []
-        for conv in self.convs:
-            conv_out = self.relu(conv(embeddings))
-            conv_outputs.append(conv_out)
-        conv_outputs = torch.cat(conv_outputs, dim=1)
-        conv_outputs = conv_outputs.permute(0, 2, 1)
+#         conv_outputs = []
+#         for conv in self.convs:
+#             conv_out = self.relu(conv(embeddings))
+#             conv_outputs.append(conv_out)
+#         conv_outputs = torch.cat(conv_outputs, dim=1)
+#         conv_outputs = conv_outputs.permute(0, 2, 1)
 
-        lstm_out, _ = self.lstm(conv_outputs)
-        attention_weights = torch.softmax(
-            self.attention(lstm_out).squeeze(-1), dim=1)
-        context_vector = torch.sum(lstm_out * attention_weights.unsqueeze(-1), dim=1)
-        outputs = self.decoder(self.dropout(context_vector))
-        return outputs
+#         lstm_out, _ = self.lstm(conv_outputs)
+#         attention_weights = torch.softmax(
+#             self.attention(lstm_out).squeeze(-1), dim=1)
+#         context_vector = torch.sum(lstm_out * attention_weights.unsqueeze(-1), dim=1)
+#         outputs = self.decoder(self.dropout(context_vector))
+#         return outputs
 
 
 # ----------------------
@@ -160,14 +160,13 @@ class Model(nn.Module):
         "pre_processing": """
 Dataset = IMDb Movie Reviews Dataset
 Tokenizer = NLTK("Word Tokenizer")
-Embedding Model = GloVe("6B.200d")
+Embedding Model = GloVe("6B.100d")
         """,
         "parameters": """
 Batch Size = 64
-Embedding Size = 200
-Kernel Sizes = [3, 5, 7]
+Embedding Size = 100
+Kernel Sizes = [3, 4, 5]
 Number of Channels = [100, 100, 100]
-LSTM Hidden Size = 150
 Learning Rate = 0.01
 Epochs = 5
 Optimizer = Adam
@@ -211,23 +210,23 @@ class Model(nn.Module):
         "pre_processing": """
 Dataset = IMDb Movie Reviews Dataset
 Tokenizer = spacy("en_core_web_sm")
-Embedding Model = FastText("wiki-news-subwords-300")
+Embedding Model = FastText('cc.en.200.bin')
         """,
         "parameters": """
 Batch Size = 64
-Embedding Size = 300
+Embedding Size = 200
 Kernel Sizes = [3, 5, 7]
 Number of Channels = [100, 100, 100]
 LSTM Hidden Size = 150
 Number of LSTM Layers = 2
 Dropout Rate = 0.5
-Learning Rate = 0.0005
+Learning Rate = 0.0001
 Epochs = 10
 Optimizer = AdamW
 Weight Decay = 0.01
 Loss Function = CrossEntropyLoss
 Learning Rate Scheduler = ReduceLROnPlateau
-Hyperparameter Tuning: Grid Sampler
+Hyperparameter Tuning: Bayesian Optimization via Tree-structured Parzen Estimator (TPE)
         """,
         "model_code": """
 class Model(nn.Module): 
@@ -404,7 +403,7 @@ def main():
             
     st.feedback("thumbs")
     st.warning("""Disclaimer: This model has been quantized for optimization.
-            Check here for more details: [GitHub Repo🐙](https://github.com/verneylmavt/nlp/tree/main/Final%20Project)""")
+            Check here for more details: [GitHub Repo🐙](https://github.com/verneylmavt/st-snt-analysis)""")
     # st.link_button("GitHub Repository", "https://streamlit.io/gallery", icon="🐙")
     st.divider()
     
