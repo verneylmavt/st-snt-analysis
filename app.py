@@ -419,7 +419,7 @@ def main():
     if "forward_pass" in model_info[model]:
         st.subheader("Forward Pass")
         for key, value in model_info[model]["forward_pass"].items():
-            st.caption(key.capitalize())
+            st.caption(key)
             st.latex(value)
     else: pass
 
