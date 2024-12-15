@@ -402,7 +402,6 @@ def main():
     st.feedback("thumbs")
     st.warning("""Disclaimer: This model has been quantized for optimization.
             Check here for more details: [GitHub Repo🐙](https://github.com/verneylmavt/st-snt-analysis)""")
-    # st.link_button("GitHub Repository", "https://streamlit.io/gallery", icon="🐙")
     st.divider()
     
     st.subheader("""Pre-Processing""")
