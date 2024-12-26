@@ -1,0 +1,11 @@
+torch  
+d2l  
+scikit-learn  
+pandas  
+nltk  
+onnx  
+onnxruntime  
+numpy  
+spacy  
+gensim  
+optuna  
