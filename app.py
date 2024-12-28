@@ -10,7 +10,7 @@ import onnxruntime
 # Configuration
 # ----------------------
 
-# @st.cache_resource
+@st.cache_data
 def load_spacy():
     model_path = os.path.join("data", "en_core_web_sm", "en_core_web_sm-3.8.0")
     if os.path.isdir(model_path):
@@ -310,7 +310,11 @@ class Model(nn.Module):
     }
 }
 
-# @st.cache_resource
+# ----------------------
+# Loading Function
+# ----------------------
+
+@st.cache_resource
 def load_model(model_name, vocab):
     try:
         model_path = os.path.join("models", str(model_name), "model-q.onnx")
@@ -325,7 +329,7 @@ def load_model(model_name, vocab):
     ort_session = onnxruntime.InferenceSession(model_path)
     return ort_session
 
-# @st.cache_resource
+@st.cache_data
 def load_vocab(model_name):
     try:
         model_path = os.path.join("models", model_name, "vocab-dict.json")
@@ -380,25 +384,50 @@ def main():
     
     model_names = list(model_info.keys())
     model = st.selectbox("Select a Model", model_names)
+    st.divider()
     
     vocab = load_vocab(model)
     net = load_model(model, vocab)
     
     st.subheader(model_info[model]["subheader"])
-    user_input = st.text_area("Enter Text Here:")
     
-    if st.button("Analyze"):
-        if user_input.strip():
-            with st.spinner('Analyzing...'):
-                sentiment, confidence = predict_sentiment(net, vocab, user_input, max_length=32)
-            if sentiment == 'positive':
-                st.success(f"**Sentiment:** {sentiment.capitalize()}")
+    # user_input = st.text_area("Enter Text Here:")
+    # if st.button("Analyze"):
+    #     if user_input.strip():
+    #         with st.spinner('Analyzing...'):
+    #             sentiment, confidence = predict_sentiment(net, vocab, user_input, max_length=32)
+    #         if sentiment == 'positive':
+    #             st.success(f"**Sentiment:** {sentiment.capitalize()}")
+    #         else:
+    #             st.error(f"**Sentiment:** {sentiment.capitalize()}")
+    #         st.write(f"**Confidence:** {confidence*100:.2f}%")
+    #     else:
+    #         st.warning("Please enter some text for analysis.")
+    
+    with st.form(key="sentiment_form"):
+        user_input = st.text_input("Enter Text Here:")
+        submit_button = st.form_submit_button(label="Analyze")
+        
+        if submit_button:
+            if user_input.strip():
+                with st.spinner('Analyzing...'):
+                    sentiment, confidence = predict_sentiment(net, vocab, user_input, max_length=32)
+                if sentiment == 'positive':
+                    st.success(f"""
+                    **Sentiment:** {sentiment.capitalize()}  
+                    **Confidence:** {confidence*100:.2f}%
+                    """)
+                else:
+                    st.error(f"""
+                    **Sentiment:** {sentiment.capitalize()}  
+                    **Confidence:** {confidence*100:.2f}%
+                    """)
+                # st.write(f"**Confidence:** {confidence*100:.2f}%")
             else:
-                st.error(f"**Sentiment:** {sentiment.capitalize()}")
-            st.write(f"**Confidence:** {confidence*100:.2f}%")
-        else:
-            st.warning("Please enter some text for analysis.")
+                st.warning("Please enter some text for analysis.")
+
             
+    # st.divider()
     st.feedback("thumbs")
     st.warning("""Disclaimer: This model has been quantized for optimization.
             Check here for more details: [GitHub Repo🐙](https://github.com/verneylmavt/st-snt-analysis)""")
