@@ -306,7 +306,7 @@ class Model(nn.Module):
 # ----------------------
 
 @st.cache_resource
-def load_model(model_name, vocab):
+def load_model(model_name):
     try:
         model_path = os.path.join("models", str(model_name), "model-q.onnx")
         net = onnx.load(model_path)
@@ -378,7 +378,7 @@ def main():
     st.divider()
     
     vocab = load_vocab(model)
-    net = load_model(model, vocab)
+    net = load_model(model)
     
     st.subheader(model_info[model]["subheader"])
     
