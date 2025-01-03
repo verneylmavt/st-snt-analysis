@@ -47,22 +47,12 @@ Ensure you have the following installed:
 
 Alternatively you can run `demo.ipynb` for a minimal interface to quickly test the model (implemented w/ `ipywidgets`).
 
-<!-- ### Notes
+## Acknowledgement
 
-- Ensure all required model files (ONNX models, vocabulary files, etc.) are placed in the appropriate directories as referenced in the app.
-- If you encounter issues, check the error logs and ensure all dependencies are correctly installed. -->
-<!--
+We acknowledge the use of the **Large Movie Review Dataset (aclImdb)** provided by **Andrew L. Maas and colleagues**. This dataset has been instrumental in conducting the research and developing this project.
 
-## Features
+- **Dataset Name**: Large Movie Review Dataset (aclImdb)
+- **Source**: [http://ai.stanford.edu/~amaas/data/sentiment/](http://ai.stanford.edu/~amaas/data/sentiment/)
+- **Description**: This dataset contains 50,000 movie reviews from IMDb, divided into 25,000 reviews for training and 25,000 for testing, with an equal distribution of positive and negative sentiments. It is widely used for binary sentiment classification tasks. :contentReference[oaicite:1]{index=1}
 
-- Multiple neural network models for sentiment analysis, including Bi-RNN, Text CNN, and Hybrid CNN-RNN with Attention Mechanism.
-- Interactive model selection and sentiment analysis interface.
-- Transparency with preprocessing steps, parameters, and architecture details displayed.
-
-## Contributions
-
-Contributions and suggestions are welcome! Feel free to open an issue or submit a pull request for improvements or additional features.
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for more details. -->
+I deeply appreciate the efforts of Andrew L. Maas and his team in making this dataset available.
