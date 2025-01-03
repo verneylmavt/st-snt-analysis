@@ -47,12 +47,12 @@ Ensure you have the following installed:
 
 Alternatively you can run `demo.ipynb` for a minimal interface to quickly test the model (implemented w/ `ipywidgets`).
 
-## Acknowledgement
+## ⚖️ Acknowledgement
 
-We acknowledge the use of the **Large Movie Review Dataset (aclImdb)** provided by **Andrew L. Maas and colleagues**. This dataset has been instrumental in conducting the research and developing this project.
+I acknowledge the use of the **Large Movie Review Dataset (aclImdb)** provided by **Andrew L. Maas and colleagues**. This dataset has been instrumental in conducting the research and developing this project.
 
 - **Dataset Name**: Large Movie Review Dataset (aclImdb)
 - **Source**: [http://ai.stanford.edu/~amaas/data/sentiment/](http://ai.stanford.edu/~amaas/data/sentiment/)
-- **Description**: This dataset contains 50,000 movie reviews from IMDb, divided into 25,000 reviews for training and 25,000 for testing, with an equal distribution of positive and negative sentiments. It is widely used for binary sentiment classification tasks. :contentReference[oaicite:1]{index=1}
+- **Description**: This dataset contains 50,000 movie reviews from IMDb, divided into 25,000 reviews for training and 25,000 for testing, with an equal distribution of positive and negative sentiments. It is widely used for binary sentiment classification tasks.
 
 I deeply appreciate the efforts of Andrew L. Maas and his team in making this dataset available.
