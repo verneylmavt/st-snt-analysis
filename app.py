@@ -395,7 +395,7 @@ def main():
     #     else:
     #         st.warning("Please enter some text for analysis.")
     
-    with st.form(key="sentiment_form"):
+    with st.form(key="snt_analysis_form"):
         user_input = st.text_input("Enter Text Here:")
         st.caption("_e.g. I love this product!_")
         submit_button = st.form_submit_button(label="Analyze")
