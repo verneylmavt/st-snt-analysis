@@ -29,9 +29,9 @@ If the demo page is not working, you can fork or clone this repository and run t
 Ensure you have the following installed:
 
 - Python 3.8 or later
-- pip (Python Package Installer) -->
+- pip (Python Package Installer)
 
-<!-- ### Installation Steps -->
+### Installation Steps -->
 
 1. Clone the repository:
 
