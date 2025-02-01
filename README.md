@@ -4,7 +4,7 @@ This project focuses on sentiment analysis using the IMDB dataset, where reviews
 
 Three distinct neural network architectures are implemented for sentiment classification. The first model, BiRNN, employs a bidirectional LSTM that captures context from both the beginning and the end of a review to make a sentiment prediction. The second model, TextCNN, uses convolutional layers with multiple kernel sizes to extract local n-gram features, and then pools these features before making a classification. The third model, HybridCNNRNN, combines convolutional layers with a bidirectional LSTM and incorporates an attention mechanism, allowing the network to focus on the most informative parts of the review.
 
-The project leverages pre-trained word embeddings to enhance performance. GloVe embeddings are integrated with the BiRNN and TextCNN models, while a FastText model provides embeddings for the HybridCNNRNN. Training is carried out using optimizers like Adam and AdamW, with cross-entropy loss guiding the learning process. Evaluation functions calculate accuracy, precision, recall, F1 score, and present confusion matrix details. Additionally, there is functionality for predicting the sentiment of new input sentences and for exporting the models to the ONNX format for potential deployment.
+The project leverages pre-trained word embeddings to enhance performance. GloVe embeddings are integrated with the BiRNN and TextCNN models, while a FastText model provides embeddings for the HybridCNNRNN. Training is carried out using optimizers like Adam and AdamW, with cross-entropy loss guiding the learning process. Additionally, the model is exported to ONNX format for deployment in Streamlit.
 
 For more information about the training process, please check the `snt-analysis.ipynb` file in the `training` folder.
 
@@ -24,14 +24,14 @@ If you encounter message `This app has gone to sleep due to inactivity`, click `
 
 If the demo page is not working, you can fork or clone this repository and run the application locally by following these steps:
 
-### Prerequisites
+<!-- ### Prerequisites
 
 Ensure you have the following installed:
 
 - Python 3.8 or later
-- pip (Python Package Installer)
+- pip (Python Package Installer) -->
 
-### Installation Steps
+<!-- ### Installation Steps -->
 
 1. Clone the repository:
 
