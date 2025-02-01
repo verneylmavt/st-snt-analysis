@@ -1,14 +1,8 @@
 # ⛔️ Sentiment Analysis Model Collections
 
-This project focuses on sentiment analysis using the IMDB dataset, where reviews are processed and labeled as positive or negative. The code handles the reading of raw review data, applies tokenization to transform text into a list of words, and builds a vocabulary with a minimum frequency threshold. It also pads and truncates the sequences to a fixed length, ensuring the data is in a suitable format for model consumption.
-
-Three distinct neural network architectures are implemented for sentiment classification. The first model, BiRNN, employs a bidirectional LSTM that captures context from both the beginning and the end of a review to make a sentiment prediction. The second model, TextCNN, uses convolutional layers with multiple kernel sizes to extract local n-gram features, and then pools these features before making a classification. The third model, HybridCNNRNN, combines convolutional layers with a bidirectional LSTM and incorporates an attention mechanism, allowing the network to focus on the most informative parts of the review.
-
-The project leverages pre-trained word embeddings to enhance performance. GloVe embeddings are integrated with the BiRNN and TextCNN models, while a FastText model provides embeddings for the HybridCNNRNN. Training is carried out using optimizers like Adam and AdamW, with cross-entropy loss guiding the learning process. Additionally, the model is exported to ONNX format for deployment in Streamlit.
+This repository contains machine learning models of Sentiment Analysis, designed to be deployed using ONNX and utilized in a Streamlit-based web application. The app provides an interactive interface for performing this task using neural network architectures. [Check here to see other ML tasks](https://github.com/verneylmavt/ml-model).
 
 For more information about the training process, please check the `snt-analysis.ipynb` file in the `training` folder.
-
-[Check here to see other ML tasks](https://github.com/verneylmavt/ml-model).
 
 ## 🎈 Demo App
 
